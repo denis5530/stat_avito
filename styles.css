@@ -5,7 +5,7 @@
   --avito-borderRadius-xxl: 28px;
   --avito-borderRadius-s: 6px;
   --avito-borderRadius-xs: 10px;
-  --avito-boxShadow-default: 0px 1px 3px rgba(0, 0, 0, 0.05), 0px 4px 30px rgba(0, 0, 0, 0.1);
+  --avito-boxShadow-default: 0 1px 3px rgba(0, 0, 0, 0.08), 0 6px 20px rgba(0, 0, 0, 0.1), 0 12px 40px rgba(0, 0, 0, 0.08);
   --avito-font-family: Manrope, Arial, 'Helvetica Neue', Helvetica, 'Arial Rub', sans-serif;
   --avito-text-primary: #000000;
   --avito-text-secondary: #757575;
@@ -53,7 +53,7 @@ body {
   }
 }
 
-/* Карточка статы: 630×240px, фон как warmGray2 */
+/* Карточка статы: 630×240px, фон как warmGray2, без теней */
 .card {
   margin: 0;
   border: 0;
@@ -66,7 +66,7 @@ body {
   height: 240px;
   width: 630px;
   box-sizing: border-box;
-  box-shadow: var(--avito-boxShadow-default);
+  box-shadow: none;
   display: flex;
   flex-direction: column;
 }
@@ -285,18 +285,32 @@ body {
   margin-top: 6px;
 }
 
+/* Подписи месяцев под графиком: как в Авито — фиксированные позиции (от контейнера графика) */
 .card__footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  position: relative;
   margin-top: 8px;
+  height: 18px;
   font-family: var(--avito-font-family);
-  font-size: var(--avito-font-size-xs);
+  font-size: var(--avito-font-size-s);
   color: var(--avito-text-secondary);
 }
 
+.card__month {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+#left-month {
+  left: calc(24px + 154.914px);
+}
+
+#right-month {
+  left: calc(24px + 417.155px);
+}
+
 .card__month--right {
-  text-align: right;
+  text-align: left;
 }
 
 .controls {
