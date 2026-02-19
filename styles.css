@@ -1,3 +1,23 @@
+/* Тема Авито (выдержки из --theme-*) */
+:root {
+  --avito-bg-default: #f2f1f0;
+  --avito-bg-elevation1: #ffffff;
+  --avito-borderRadius-xxl: 28px;
+  --avito-borderRadius-s: 6px;
+  --avito-borderRadius-xs: 10px;
+  --avito-boxShadow-default: 0px 1px 3px rgba(0, 0, 0, 0.05), 0px 4px 30px rgba(0, 0, 0, 0.1);
+  --avito-font-family: Manrope, Arial, 'Helvetica Neue', Helvetica, 'Arial Rub', sans-serif;
+  --avito-text-primary: #000000;
+  --avito-text-secondary: #757575;
+  --avito-palette-warmGray24: #cccbc8;
+  --avito-font-size-xs: 11px;
+  --avito-font-size-s: 13px;
+  --avito-font-size-m: 15px;
+  --avito-font-size-xm: 16px;
+  --avito-font-size-xxl: 26px;
+  --avito-font-weight-bold: 700;
+}
+
 *,
 *::before,
 *::after {
@@ -7,9 +27,9 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: Manrope, Arial, 'Helvetica Neue', Helvetica, sans-serif;
-  background: #F2F1F0;
-  color: #000000;
+  font-family: var(--avito-font-family);
+  background: var(--avito-bg-default);
+  color: var(--avito-text-primary);
 }
 
 .page {
@@ -29,16 +49,22 @@ body {
   }
 }
 
+/* Карточка 1:1 как в Авито */
 .card {
-  background: #FFFFFF;
-  border-radius: 28px;
-  padding: 16px 20px 14px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 30px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+  position: relative;
+  background: var(--avito-bg-elevation1);
+  padding: 20px 24px 28px;
+  border-radius: var(--avito-borderRadius-xxl);
+  height: 240px;
+  width: 630px;
+  box-sizing: border-box;
+  box-shadow: var(--avito-boxShadow-default);
   display: flex;
   flex-direction: column;
-  width: 630px;
-  height: 240px;
-  box-sizing: border-box;
 }
 
 .card__header {
@@ -48,27 +74,34 @@ body {
   margin-bottom: 10px;
 }
 
+/* Кнопка-дропдаун как в Авито (preset overlay, size xs, withShadow) */
 .dropdown {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: #ffffff;
-  font-size: 14px;
-  color: #111827;
+  padding: 0 12px 0 11px;
+  min-height: 30px;
+  border-radius: var(--avito-borderRadius-xs);
+  border: 1px solid transparent;
+  background: var(--avito-bg-elevation1);
+  font-family: var(--avito-font-family);
+  font-size: var(--avito-font-size-s);
+  color: var(--avito-text-primary);
   cursor: default;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 28px rgba(0, 0, 0, 0.08);
 }
 
 .dropdown__chevron {
-  font-size: 11px;
+  font-size: var(--avito-font-size-xs);
   opacity: 0.7;
 }
 
+/* Итог справа: крупный жирный текст */
 .card__total {
-  font-weight: 600;
-  font-size: 32px;
+  font-weight: var(--avito-font-weight-bold);
+  font-size: var(--avito-font-size-xxl);
+  line-height: 1.2;
+  color: var(--avito-text-primary);
 }
 
 .card__body {
@@ -76,6 +109,7 @@ body {
   display: flex;
   align-items: center;
   padding: 0;
+  min-height: 0;
 }
 
 /* Контейнер: сверху ряд столбиков, снизу ряд подписей (как в Авито) */
@@ -106,7 +140,7 @@ body {
   justify-content: flex-end;
   height: 76px;
   min-height: 76px;
-  border-radius: 6px;
+  border-radius: var(--avito-borderRadius-s);
   overflow: visible;
 }
 
@@ -126,9 +160,10 @@ body {
   align-items: center;
   justify-content: flex-start;
   text-align: center;
-  font-size: 12px;
+  font-family: var(--avito-font-family);
+  font-size: var(--avito-font-size-s);
   line-height: 1.2;
-  color: #000000;
+  color: var(--avito-text-primary);
 }
 
 .chart__segments {
@@ -138,7 +173,7 @@ body {
   flex-direction: column-reverse;
   justify-content: flex-start;
   align-items: stretch;
-  border-radius: 6px;
+  border-radius: var(--avito-borderRadius-s);
 }
 
 .chart__segment {
@@ -150,13 +185,13 @@ body {
 
 /* Как в Авито: скругление только у верхнего и нижнего сегмента столбика */
 .chart__segments .chart__segment:only-child {
-  border-radius: 6px;
+  border-radius: var(--avito-borderRadius-s);
 }
 .chart__segments .chart__segment:first-child:not(:last-child) {
-  border-radius: 0 0 6px 6px;
+  border-radius: 0 0 var(--avito-borderRadius-s) var(--avito-borderRadius-s);
 }
 .chart__segments .chart__segment:last-child:not(:first-child) {
-  border-radius: 6px 6px 0 0;
+  border-radius: var(--avito-borderRadius-s) var(--avito-borderRadius-s) 0 0;
 }
 
 .chart__segment--contacts {
@@ -173,12 +208,12 @@ body {
 
 .chart__label-date {
   display: block;
-  font-size: 12px;
+  font-size: var(--avito-font-size-s);
 }
 
 .chart__label-weekday {
   display: block;
-  font-size: 10px;
+  font-size: var(--avito-font-size-xs);
   text-transform: lowercase;
 }
 
@@ -193,9 +228,10 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 6px;
-  font-size: 11px;
-  color: #757575;
+  margin-top: 8px;
+  font-family: var(--avito-font-family);
+  font-size: var(--avito-font-size-xs);
+  color: var(--avito-text-secondary);
 }
 
 .card__month--right {
