@@ -72,6 +72,25 @@
     // Порядок сегментов снизу вверх: calls, messages, contacts
     var keys = ['calls', 'messages', 'contacts'];
 
+    // Обёртка: ось Y слева + область графика
+    var wrap = document.createElement('div');
+    wrap.className = 'chart__wrap';
+
+    // Ось Y: сверху — максимум, снизу — 0 (как в Авито)
+    var yAxis = document.createElement('div');
+    yAxis.className = 'chart__y-axis';
+    var yTickMax = document.createElement('div');
+    yTickMax.className = 'chart__y-tick chart__y-tick--max';
+    yTickMax.textContent = String(maxVal);
+    var yTickMin = document.createElement('div');
+    yTickMin.className = 'chart__y-tick chart__y-tick--min';
+    yTickMin.textContent = '0';
+    yAxis.appendChild(yTickMax);
+    yAxis.appendChild(yTickMin);
+
+    var content = document.createElement('div');
+    content.className = 'chart__content';
+
     // Ряд столбиков — все на одной базовой линии
     var barsRow = document.createElement('div');
     barsRow.className = 'chart__bars';
@@ -82,6 +101,7 @@
 
     for (var idx = 0; idx < DAYS_COUNT; idx++) {
       var item = data[idx];
+      var dayTotal = totalOfDay(item);
 
       var bar = document.createElement('div');
       bar.className = 'chart__bar';
@@ -89,29 +109,44 @@
       var segWrap = document.createElement('div');
       segWrap.className = 'chart__segments';
 
-      for (var k = 0; k < keys.length; k++) {
-        var val = item[keys[k]] || 0;
-        if (val <= 0) continue;
-        var seg = document.createElement('div');
-        seg.className = 'chart__segment chart__segment--' + keys[k];
-        seg.style.height = (val / maxVal) * 100 + '%';
-        segWrap.appendChild(seg);
+      if (dayTotal === 0) {
+        bar.classList.add('chart__bar--empty');
+        var emptyLine = document.createElement('div');
+        emptyLine.className = 'chart__bar-empty-line';
+        var spacer = document.createElement('div');
+        spacer.style.flex = '1';
+        spacer.style.minHeight = '0';
+        segWrap.appendChild(emptyLine);
+        segWrap.appendChild(spacer);
+      } else {
+        for (var k = 0; k < keys.length; k++) {
+          var val = item[keys[k]] || 0;
+          if (val <= 0) continue;
+          var seg = document.createElement('div');
+          seg.className = 'chart__segment chart__segment--' + keys[k];
+          seg.style.height = (val / maxVal) * 100 + '%';
+          segWrap.appendChild(seg);
+        }
       }
 
       bar.appendChild(segWrap);
       barsRow.appendChild(bar);
 
-      // Ячейка подписи: текст только у 2-го, 4-го, 6-го... столбика; первая без подписи
+      // Ячейка подписи: текст только у 2-го, 4-го, 6-го... столбика; первая без подписи; пустой день — приглушённый цвет
       var cell = document.createElement('div');
       cell.className = 'chart__label-cell';
+      if (dayTotal === 0) cell.classList.add('chart__label-cell--empty');
       if (idx > 0 && idx % 2 === 1) {
         cell.innerHTML = '<span class="chart__label-date">' + item.date + '</span><span class="chart__label-weekday">' + item.weekday + '</span>';
       }
       labelsRow.appendChild(cell);
     }
 
-    root.appendChild(barsRow);
-    root.appendChild(labelsRow);
+    content.appendChild(barsRow);
+    content.appendChild(labelsRow);
+    wrap.appendChild(yAxis);
+    wrap.appendChild(content);
+    root.appendChild(wrap);
   }
 
   function setTotal(el, data) {

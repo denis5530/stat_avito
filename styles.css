@@ -14,8 +14,11 @@
   --avito-font-size-s: 13px;
   --avito-font-size-m: 15px;
   --avito-font-size-xm: 16px;
-  --avito-font-size-xxl: 26px;
+  --avito-font-size-xxl: 24px;
   --avito-font-weight-bold: 700;
+  /* График: приглушённая подпись дня без данных, линия пустого столбика (как в Авито) */
+  --avito-chart-axis-muted: rgb(204, 204, 204);
+  --avito-chart-empty-line: #cccbc8;
 }
 
 *,
@@ -49,14 +52,14 @@ body {
   }
 }
 
-/* Карточка 1:1 как в Авито */
+/* Карточка 1:1 как в Авито: 630×240px, белый фон */
 .card {
   margin: 0;
   border: 0;
   font: inherit;
   vertical-align: baseline;
   position: relative;
-  background: var(--avito-bg-elevation1);
+  background: #ffffff;
   padding: 20px 24px 28px;
   border-radius: var(--avito-borderRadius-xxl);
   height: 240px;
@@ -85,7 +88,7 @@ body {
   border: 1px solid transparent;
   background: var(--avito-bg-elevation1);
   font-family: var(--avito-font-family);
-  font-size: var(--avito-font-size-s);
+  font-size: var(--avito-font-size-xs);
   color: var(--avito-text-primary);
   cursor: default;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 28px rgba(0, 0, 0, 0.08);
@@ -112,28 +115,70 @@ body {
   min-height: 0;
 }
 
-/* Контейнер: сверху ряд столбиков, снизу ряд подписей (как в Авито) */
+/* Контейнер 582px как в Авито (SVG width): последний столбик на уровне цифры контактов */
 .chart {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: 0;
   width: 582px;
 }
 
-/* Ряд столбиков: все на одной базовой линии */
+.chart__wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0;
+}
+
+/* Слева: подписи 0 и макс. (в SVG первый столбец x=60) */
+.chart__y-axis {
+  flex: 0 0 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 76px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.chart__y-tick {
+  font-family: var(--avito-font-family);
+  font-size: var(--avito-font-size-s);
+  line-height: 1;
+  color: var(--avito-text-primary);
+}
+
+.chart__y-tick--max {
+  align-self: flex-start;
+}
+
+.chart__y-tick--min {
+  align-self: flex-start;
+}
+
+.chart__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Ряд столбиков: ширина 15px, зазор ~2.48px как в SVG Авито */
 .chart__bars {
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
-  gap: 4px;
+  gap: 2.48px;
   height: 76px;
   min-height: 76px;
 }
 
 .chart__bar {
-  flex: 0 0 14px;
+  flex: 0 0 15px;
   display: flex;
   flex-direction: column-reverse;
   align-items: stretch;
@@ -144,17 +189,17 @@ body {
   overflow: visible;
 }
 
-/* Ряд подписей: ниже уровня столбиков, та же сетка (30 ячеек) */
+/* Ряд подписей: та же сетка 15px + 2.5px */
 .chart__labels {
   display: flex;
   justify-content: flex-start;
-  gap: 4px;
+  gap: 2.48px;
   margin-top: 6px;
   min-height: 28px;
 }
 
 .chart__label-cell {
-  flex: 0 0 14px;
+  flex: 0 0 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -164,6 +209,21 @@ body {
   font-size: var(--avito-font-size-s);
   line-height: 1.2;
   color: var(--avito-text-primary);
+}
+
+/* День без данных: подпись приглушена (как в Авито) */
+.chart__label-cell--empty {
+  color: var(--avito-chart-axis-muted);
+}
+
+/* Линия под пустым столбиком (как в Авито stroke #CCCBC8) */
+.chart__bar-empty-line {
+  width: 100%;
+  height: 1px;
+  min-height: 1px;
+  background: var(--avito-chart-empty-line);
+  border-radius: 0;
+  flex-shrink: 0;
 }
 
 .chart__segments {
