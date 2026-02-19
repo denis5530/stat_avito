@@ -15,7 +15,7 @@
     return { contacts: c, messages: m, calls: p };
   }
 
-  // Всегда ровно 30 дней от startDate
+  // Всегда ровно 30 дней от startDate. Опционально: средний день (1–30) и заявок в нём.
   function generateData(opts) {
     var start = new Date(opts.startDate);
     if (isNaN(start.getTime())) start = new Date(2026, 0, 21);
@@ -24,13 +24,37 @@
     var startCount = opts.startCount || 4;
     var endCount = opts.endCount || 11;
     var spread = opts.spread || 0.35;
+    var middleDayNum = opts.middleDay != null ? Math.max(1, Math.min(30, Math.round(opts.middleDay))) : null;
+    var middleCount = opts.middleCount != null ? Math.max(0, Math.round(opts.middleCount)) : null;
+    var useMiddle = middleDayNum != null && middleCount != null;
+    var midIdx = useMiddle ? middleDayNum - 1 : 0; // 0-based index дня «среднего»
 
     for (var i = 0; i < DAYS_COUNT; i++) {
       var d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
-      var t = i / (DAYS_COUNT - 1);
-      var base = startCount + (endCount - startCount) * t;
+      var base;
+      if (useMiddle) {
+        if (i <= midIdx) {
+          if (midIdx === 0) {
+            base = middleCount;
+          } else {
+            var t0 = i / midIdx;
+            base = startCount + (middleCount - startCount) * t0;
+          }
+        } else {
+          if (midIdx === DAYS_COUNT - 1) {
+            base = middleCount;
+          } else {
+            var t1 = (i - midIdx) / (DAYS_COUNT - 1 - midIdx);
+            base = middleCount + (endCount - middleCount) * t1;
+          }
+        }
+      } else {
+        var t = i / (DAYS_COUNT - 1);
+        base = startCount + (endCount - startCount) * t;
+      }
       var noise = (Math.random() * 2 - 1) * spread;
       var total = Math.max(0, Math.round(base * (1 + noise)));
+      if (useMiddle && i === midIdx) total = middleCount;
       var seg = splitToSegments(total);
       out.push({
         date: String(d.getDate()),
@@ -175,6 +199,8 @@
     var endInput = document.getElementById('end-date');
     var startCountInput = document.getElementById('start-count');
     var endCountInput = document.getElementById('end-count');
+    var middleDayInput = document.getElementById('middle-day');
+    var middleCountInput = document.getElementById('middle-count');
     var spreadInput = document.getElementById('spread');
     var spreadValEl = document.getElementById('spread-value');
     var btn = document.getElementById('generate-chart');
@@ -186,6 +212,8 @@
       startDate: '2026-01-21',
       startCount: 4,
       endCount: 11,
+      middleDay: 15,
+      middleCount: 8,
       spread: 0.35
     };
 
@@ -195,6 +223,8 @@
     endInput.value = endDefault.toISOString().slice(0, 10);
     startCountInput.value = defaults.startCount;
     endCountInput.value = defaults.endCount;
+    if (middleDayInput) middleDayInput.value = defaults.middleDay;
+    if (middleCountInput) middleCountInput.value = defaults.middleCount;
     spreadInput.value = defaults.spread;
     if (spreadValEl) spreadValEl.textContent = Math.round(defaults.spread * 100) + '%';
 
@@ -242,12 +272,22 @@
         return;
       }
 
-      var chartData = generateData({
+      var opts = {
         startDate: startStr,
         startCount: startNum,
         endCount: endNum,
         spread: Number(spreadInput.value) || 0.35
-      });
+      };
+      if (middleDayInput && middleCountInput) {
+        var md = Number(middleDayInput.value);
+        var mc = Number(middleCountInput.value);
+        if (!isNaN(md) && md >= 1 && md <= 30 && !isNaN(mc) && mc >= 0) {
+          opts.middleDay = md;
+          opts.middleCount = mc;
+        }
+      }
+
+      var chartData = generateData(opts);
 
       renderChart(root, chartData);
       setTotal(totalEl, chartData);
