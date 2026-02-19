@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>Статистика контактов</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="card" id="chart-card">
+        <header class="card__header">
+          <button class="dropdown">
+            <span class="dropdown__label">Контакты</span>
+            <span class="dropdown__chevron">▾</span>
+          </button>
+          <div class="card__total">
+            <span class="card__total-number" id="total-value">0</span>
+          </div>
+        </header>
+
+        <main class="card__body">
+          <div class="chart" data-chart-root></div>
+        </main>
+
+        <footer class="card__footer">
+          <div class="card__month" id="left-month">Январь 2026</div>
+          <div class="card__month card__month--right" id="right-month">
+            Февраль
+          </div>
+        </footer>
+      </div>
+
+      <section class="controls">
+        <h2 class="controls__title">Генератор графика</h2>
+        <p class="controls__hint">
+          Задай период и параметры «заявок», система сама построит столбики в
+          стиле Авито. Готово для скриншотов кейсов.
+        </p>
+
+        <div class="controls__grid">
+          <label class="field">
+            <span class="field__label">Дата начала</span>
+            <input
+              id="start-date"
+              class="field__input"
+              type="date"
+            />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Дата конца</span>
+            <input
+              id="end-date"
+              class="field__input"
+              type="date"
+            />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Заявок в начале (в день)</span>
+            <input
+              id="start-count"
+              class="field__input"
+              type="number"
+              min="0"
+            />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Заявок в конце (в день)</span>
+            <input
+              id="end-count"
+              class="field__input"
+              type="number"
+              min="0"
+            />
+          </label>
+
+          <label class="field field--full">
+            <div class="field__label-row">
+              <span class="field__label">Разброс между днями</span>
+              <span class="field__value" id="spread-value"></span>
+            </div>
+            <input
+              id="spread"
+              class="field__input field__input--range"
+              type="range"
+              min="0"
+              max="0.8"
+              step="0.05"
+            />
+          </label>
+        </div>
+
+        <div class="controls__actions">
+          <button id="generate-chart" class="controls__button">
+            Сгенерировать график
+          </button>
+          <span id="error-message" class="controls__error"></span>
+        </div>
+      </section>
+    </div>
+
+    <script src="./chart.js"></script>
+  </body>
+  </html>
+

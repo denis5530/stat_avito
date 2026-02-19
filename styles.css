@@ -1,0 +1,316 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Manrope, Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  background: #F2F1F0;
+  color: #000000;
+}
+
+.page {
+  max-width: 960px;
+  margin: 32px auto;
+  padding: 0 16px 32px;
+  display: grid;
+  grid-template-columns: 630px minmax(0, 1fr);
+  align-items: flex-start;
+  gap: 24px;
+}
+
+@media (max-width: 1000px) {
+  .page {
+    max-width: 630px;
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: #FFFFFF;
+  border-radius: 28px;
+  padding: 16px 20px 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  width: 630px;
+  height: 240px;
+  box-sizing: border-box;
+}
+
+.card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.dropdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #ffffff;
+  font-size: 14px;
+  color: #111827;
+  cursor: default;
+}
+
+.dropdown__chevron {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.card__total {
+  font-weight: 600;
+  font-size: 32px;
+}
+
+.card__body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+/* Контейнер: сверху ряд столбиков, снизу ряд подписей (как в Авито) */
+.chart {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 0 auto;
+  width: 582px;
+}
+
+/* Ряд столбиков: все на одной базовой линии */
+.chart__bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 4px;
+  height: 76px;
+  min-height: 76px;
+}
+
+.chart__bar {
+  flex: 0 0 14px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: stretch;
+  justify-content: flex-end;
+  height: 76px;
+  min-height: 76px;
+  border-radius: 6px;
+  overflow: visible;
+}
+
+/* Ряд подписей: ниже уровня столбиков, та же сетка (30 ячеек) */
+.chart__labels {
+  display: flex;
+  justify-content: flex-start;
+  gap: 4px;
+  margin-top: 6px;
+  min-height: 28px;
+}
+
+.chart__label-cell {
+  flex: 0 0 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #000000;
+}
+
+.chart__segments {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  align-items: stretch;
+  border-radius: 6px;
+}
+
+.chart__segment {
+  width: 100%;
+  border-radius: 0;
+  flex-shrink: 0;
+  transition: height 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+/* Как в Авито: скругление только у верхнего и нижнего сегмента столбика */
+.chart__segments .chart__segment:only-child {
+  border-radius: 6px;
+}
+.chart__segments .chart__segment:first-child:not(:last-child) {
+  border-radius: 0 0 6px 6px;
+}
+.chart__segments .chart__segment:last-child:not(:first-child) {
+  border-radius: 6px 6px 0 0;
+}
+
+.chart__segment--contacts {
+  background: #45C1FF;
+}
+
+.chart__segment--messages {
+  background: #B184F8;
+}
+
+.chart__segment--calls {
+  background: #FF8CAF;
+}
+
+.chart__label-date {
+  display: block;
+  font-size: 12px;
+}
+
+.chart__label-weekday {
+  display: block;
+  font-size: 10px;
+  text-transform: lowercase;
+}
+
+.chart__zero {
+  font-size: 10px;
+  color: #9ca3af;
+  text-align: center;
+  margin-top: 6px;
+}
+
+.card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #757575;
+}
+
+.card__month--right {
+  text-align: right;
+}
+
+.controls {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 18px 18px 16px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+.controls__title {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.controls__hint {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.controls__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 16px;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 520px) {
+  .controls__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field--full {
+  grid-column: 1 / -1;
+}
+
+.field__label {
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.field__label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.field__value {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.field__input {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 13px;
+  color: #111827;
+}
+
+.field__input--range {
+  padding: 0;
+  height: 30px;
+}
+
+.field__input:focus-visible {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 1px #6366f1;
+}
+
+.controls__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 12px;
+}
+
+.controls__button {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.controls__button:hover {
+  filter: brightness(1.07);
+}
+
+.controls__error {
+  flex: 1;
+  font-size: 12px;
+  color: #dc2626;
+  min-height: 1em;
+}
+
