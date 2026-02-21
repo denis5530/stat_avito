@@ -147,9 +147,10 @@ body {
 
 .chart__y-tick {
   font-family: var(--avito-font-family);
-  font-size: var(--avito-font-size-s);
+  font-size: var(--avito-font-size-xs);
+  font-weight: 400;
   line-height: 1;
-  color: var(--avito-text-primary);
+  color: var(--avito-text-secondary);
 }
 
 .chart__y-tick--max {
@@ -416,6 +417,17 @@ body {
 
 .controls__button:hover {
   filter: brightness(1.07);
+}
+
+.controls__button--secondary {
+  background: transparent;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.controls__button--secondary:hover {
+  background: #f3f4f6;
+  filter: none;
 }
 
 .controls__error {

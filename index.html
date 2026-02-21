@@ -119,12 +119,17 @@
           <button id="generate-chart" class="controls__button">
             Сгенерировать график
           </button>
+          <button id="save-png" class="controls__button controls__button--secondary" type="button">
+            Сохранить карточку как PNG (прозрачный фон)
+          </button>
           <span id="error-message" class="controls__error"></span>
         </div>
       </section>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="./chart.js"></script>
+    <script src="./save-png.js"></script>
   </body>
   </html>
 
